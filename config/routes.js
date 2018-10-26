@@ -12,7 +12,7 @@ module.exports = server => {
   server.get('/api/jokes', authenticate, getJokes);
 };
 
-function register(req, res) {
+function register(request, response) {
   const credentials = request.body;
 
   const hash = bcrypt.hashSync(credentials.password, 15);
@@ -31,7 +31,7 @@ function register(req, res) {
 }
 
 function login(req, res) {
-  const credentials = request.body;
+  const credentials = req.body;
 
   db('users')
   .where({ username: credentials.username })
@@ -39,25 +39,25 @@ function login(req, res) {
     user = user[0]
     if (user) {
       const token = jwt.sign({ username: credentials.username }, jwtKey, { expiresIn: '10m' });
-      response.status(200).json({ welcome: user, token })
+      res.status(200).json({ welcome: user, token })
     } else {
-      response.status(401).json({ notAuthorized: "Unable to find a user with the provided credentials." })
+      res.status(401).json({ notAuthorized: "Unable to find a user with the provided credentials." })
     }
   })
   .catch ( error => {
-    response.status(500).json(error)
+    res.status(500).json(error)
   })
 }
 
-function getJokes(req, res) {
+function getJokes(req, response) {
   axios
     .get(
       'https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_ten'
     )
     .then(response => {
-      res.status(200).json(response.data);
+      response.status(200).json(response.data);
     })
     .catch(err => {
-      res.status(500).json({ message: 'Error Fetching Jokes', error: err });
+      response.status(500).json({ message: 'Error Fetching Jokes', error: err });
     });
 }
