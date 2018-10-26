@@ -1,5 +1,9 @@
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const jwtKey = require('../_secrets/keys').jwtKey;
+const bcrypt = require('bcryptjs');
 
+const db = require('../database/dbConfig.js')
 const { authenticate } = require('./middlewares');
 
 module.exports = server => {
@@ -9,11 +13,11 @@ module.exports = server => {
 };
 
 function register(req, res) {
-  // implement user registration
+  const credentials = request.body;
 }
 
 function login(req, res) {
-  // implement user login
+  const credentials = request.body;
 }
 
 function getJokes(req, res) {
