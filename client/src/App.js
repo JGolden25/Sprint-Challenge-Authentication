@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route, NavLink } from 'react-router-dom';
 import SignUp from './components/SignUp';
@@ -11,7 +10,6 @@ class App extends Component {
     username:"",
     password:"",
   }
-
   inputHandler = e => {
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value
